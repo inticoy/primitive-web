@@ -3,48 +3,34 @@
 <head>
   <title> WEB - CSS</title>
   <mata charset = "utf-8">
-  <style>
-  a {
-    color:black;
-    text-decoration: none;
-  }
-
-  #active {
-    color:red;
-  }
-  .saw {
-    color:gray;
-  }
-  h1{
-    font-size: 40px;
-    text-align: center;
-  }
-
-
-  </style>
-
+  <link rel ="stylesheet" href="style.css">
 </head>
 
 <body>
   <h1> <a href="index.html">WEB</a> </h1>
-  <ol>
-    <li><a href="HTML.html" class="saw" >HTML</a></li>
-    <li><a href="CSS.html" class="saw" id="active" >CSS</a></li>
-    <li><a href="JavaScript.html">JavaScript</a></li>
-  </ol>
-  <h2>CSS</h2>
 
-  <p>
-    <Strong>Cascading Style Sheets(CSS) </strong>
-    is a style sheet language used for describing the presentation
-    of a document written in a markup lanuage such as HTML.
+  <div id="grid">
+    <ol>
+      <li><a href="HTML.html" >HTML</a></li>
+      <li><a href="CSS.html" id="active" >CSS</a></li>
+      <li><a href="JavaScript.html">JavaScript</a></li>
+    </ol>
+    <div id="article">
+      <h2>CSS</h2>
 
-CSS is designed to enable the separation of presentation and content, including layout, colors, and fonts.[3] This separation can improve content accessibility, provide more flexibility and control in the specification of presentation characteristics, enable multiple web pages to share formatting by specifying the relevant CSS in a separate .css file which reduces complexity and repetition in the structural content as well as enabling the .css file to be cached to improve the page load speed between the pages that share the file and its formatting.
+      <p>
+        <Strong>Cascading Style Sheets(<a href="https://en.wikipedia.org/wiki/Cascading_Style_Sheets"> CSS </a>) </strong>
+        is a style sheet language used for describing the presentation
+        of a document written in a markup lanuage such as HTML.
 
-Separation of formatting and content also makes it feasible to present the same markup page in different styles for different rendering methods, such as on-screen, in print, by voice (via speech-based browser or screen reader), and on Braille-based tactile devices. CSS also has rules for alternate formatting if the content is accessed on a mobile device.[4]
+        CSS is designed to enable the separation of presentation and content, including layout, colors, and fonts.[3] This separation can improve content accessibility, provide more flexibility and control in the specification of presentation characteristics, enable multiple web pages to share formatting by specifying the relevant CSS in a separate .css file which reduces complexity and repetition in the structural content as well as enabling the .css file to be cached to improve the page load speed between the pages that share the file and its formatting.
 
-The name cascading comes from the specified priority scheme to determine which style rule applies if more than one rule matches a particular element. This cascading priority scheme is predictable.
-  </p>
+        Separation of formatting and content also makes it feasible to present the same markup page in different styles for different rendering methods, such as on-screen, in print, by voice (via speech-based browser or screen reader), and on Braille-based tactile devices. CSS also has rules for alternate formatting if the content is accessed on a mobile device.[4]
 
-  <img width="300px" src="test.jpg">
+        The name cascading comes from the specified priority scheme to determine which style rule applies if more than one rule matches a particular element. This cascading priority scheme is predictable.
+      </p>
+      <img width="300px" src="test.jpg">
+    </div>
+  </div>
+
 </body>

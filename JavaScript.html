@@ -3,45 +3,33 @@
 <head>
   <title>html practice</title>
   <mata charset = "utf-8">
-    <style>
-    a {
-      color:black;
-      text-decoration: none;
-    }
-    #active {
-      color:red;
-    }
-    .saw {
-      color:gray;
-    }
-    h1{
-      font-size: 40px;
-      text-align: center;
-    }
-
-
-    </style>
+  <link rel ="stylesheet" href="style.css">
 </head>
 
 <body>
   <h1> <a href="index.html">WEB</a> </h1>
-  <ol>
-    <li><a href="HTML.html" class="saw">HTML</a></li>
-    <li><a href="CSS.html" class="saw">CSS</a></li>
-    <li><a href="JavaScript.html" class="saw" id="active">JavaScript</a></li>
-  </ol>
-  <h2>JavaScript</h2>
 
-  <p>
-    <strong>JavaScript</strong>, often abbreviated as <strong>JS</strong>, is a programming language that
-    confirms to the ECMAScript specification.
-  </p>
-  <p>
-    JavaScript is high-level, often just-in-time compiled, and multi-paradigm.
-  </p>
-  <p> It has curly-bracket syntax, dynamic typing, prototype-based object-orientation,
-  and first-class functions.
-</p>
+  <div id="grid">
+    <ol>
+      <li><a href="HTML.html" class="saw">HTML</a></li>
+      <li><a href="CSS.html" class="saw">CSS</a></li>
+      <li><a href="JavaScript.html" class="saw" id="active">JavaScript</a></li>
+    </ol>
+    <div id="article">
+      <h2>JavaScript</h2>
 
-  <img width="100px" src="test.jpg">
+      <p>
+        <strong>JavaScript</strong>, often abbreviated as <strong>JS</strong>, is a programming language that
+        confirms to the ECMAScript specification.
+      </p>
+      <p>
+        JavaScript is high-level, often just-in-time compiled, and multi-paradigm.
+      </p>
+      <p> It has curly-bracket syntax, dynamic typing, prototype-based object-orientation,
+      and first-class functions.
+    </p>
+
+      <img width="100px" src="test.jpg">
+    </div>
+  </div>
 </body>

@@ -6,48 +6,100 @@ var app = http.createServer(function(request,response){
     var _url = request.url;
     var queryData = url.parse(_url, true).query;
     var title = queryData.id
-    console.log(queryData.id);
+    var pathname = url.parse(_url, true).pathname;
 
-    if(_url == '/'){
-      title = 'Welcome';
-    }
-    if(_url == '/favicon.ico'){
+    if(pathname === '/'){
+
+
+      if(queryData.id === undefined){
+
+        fs.readdir('./data', function(error, filelist){
+          var title = 'Welcome';
+          var description = 'Hello, Node.js';
+          var list = `<ul>`;
+          var i = 0;
+          while(i < filelist.length){
+            list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
+            i++;
+          }
+          list = list + `</ul>`
+
+          var template = `
+          <!doctype html>
+          <html>
+          <head>
+            <title>${title} practice</title>
+            <mata charset = "utf-8">
+            <link rel ="stylesheet" href="style.css">
+          </head>
+
+          <body>
+            <h1> <a href="/">WEB</a> </h1>
+            <div id="grid">
+              ${list}
+              <div id="article">
+                <h2>${title}</h2>
+                <p>${description}</p>
+              </div>
+            </div>
+          </body>
+          `;
+          response.writeHead(200);
+          response.end(template);
+
+        })
+
+      } else {
+        fs.readdir('./data', function(error, filelist){
+          var list = `<ul>`;
+
+          var i = 0;
+          while(i < filelist.length){
+            list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
+            i++;
+          }
+          list = list + `</ul>`
+
+          fs.readFile(`data/${queryData.id}`, 'utf8', function(err, data){
+            var title = queryData.id;
+            var description = data;
+            var template = `
+            <!doctype html>
+            <html>
+            <head>
+              <title>${title} practice</title>
+              <mata charset = "utf-8">
+              <link rel ="stylesheet" href="style.css">
+            </head>
+
+            <body>
+              <h1> <a href="/">WEB</a> </h1>
+              <div id="grid">
+                ${list}
+                <div id="article">
+                  <h2>${title}</h2>
+                  <p>${description}</p>
+                </div>
+              </div>
+            </body>
+            `;
+            response.writeHead(200);
+            response.end(template);
+          })
+
+
+
+
+        });
+
+      }
+
+
+
+    } else {
       response.writeHead(404);
-      response.end();
-      return;
+      response.end("Not found");
     }
-    response.writeHead(200);
-    fs.readFile(`data/${queryData.id}`, 'utf8', function(err, data){
-      var description = data;
-      var template = `
-      <!doctype html>
-      <html>
-      <head>
-        <title>${title} practice</title>
-        <mata charset = "utf-8">
-        <link rel ="stylesheet" href="style.css">
-      </head>
-
-      <body>
-        <h1> <a href="/">WEB</a> </h1>
-        <div id="grid">
-          <ol>
-            <li><a href="/?id=HTML"class="saw" id="active">HTML</a></li>
-            <li><a href="/?id=CSS">CSS</a></li>
-            <li><a href="/?id=JavaScript">JavaScript</a></li>
-          </ol>
-          <div id="article">
-            <h2>${title}</h2>
-            <p>${description}</p>
-
-            <img width="500px" src="test.jpg">
-          </div>
-        </div>
-      </body>
-      `;
-      response.end(template);
-
-    })
 
 
 

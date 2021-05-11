@@ -2,7 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var url = require('url');
 
-function templateHTML(title, list, body){
+function templateHTML(title, list, body) {
   return `
   <!doctype html>
   <html>
@@ -25,10 +25,10 @@ function templateHTML(title, list, body){
 
 }
 
-function templateLIST(filelist){
+function templateLIST(filelist) {
   var list = `<ul>`;
   var i = 0;
-  while(i < filelist.length){
+  while (i < filelist.length) {
     list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
     i++;
   }
@@ -36,39 +36,39 @@ function templateLIST(filelist){
   return list;
 }
 
-var app = http.createServer(function(request,response){
-    var _url = request.url;
-    var queryData = url.parse(_url, true).query;
-    var title = queryData.id
-    var pathname = url.parse(_url, true).pathname;
+var app = http.createServer(function(request, response) {
+  var _url = request.url;
+  var queryData = url.parse(_url, true).query;
+  var title = queryData.id
+  var pathname = url.parse(_url, true).pathname;
 
-    if(pathname === '/'){
-      if(queryData.id === undefined){
-        fs.readdir('./data', function(error, filelist){
-          var title = 'Welcome';
-          var description = 'Hello, Node.js';
+  if (pathname === '/') {
+    if (queryData.id === undefined) {
+      fs.readdir('./data', function(error, filelist) {
+        var title = 'Welcome';
+        var description = 'Hello, Node.js';
+        var list = templateLIST(filelist);
+        var template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`)
+        response.writeHead(200);
+        response.end(template);
+      })
+    } else {
+      fs.readdir('./data', function(error, filelist) {
+        fs.readFile(`data/${queryData.id}`, 'utf8', function(err, data) {
+          var title = queryData.id;
+          var description = data;
           var list = templateLIST(filelist);
+
           var template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`)
           response.writeHead(200);
           response.end(template);
         })
-      } else {
-        fs.readdir('./data', function(error, filelist){
-          fs.readFile(`data/${queryData.id}`, 'utf8', function(err, data){
-            var title = queryData.id;
-            var description = data;
-            var list = templateLIST(filelist);
-
-            var template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`)
-            response.writeHead(200);
-            response.end(template);
-          })
-        });
-      }
-    } else {
-      response.writeHead(404);
-      response.end("Not found");
+      });
     }
+  } else {
+    response.writeHead(404);
+    response.end("Not found");
+  }
 
 
 

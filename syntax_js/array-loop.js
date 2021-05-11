@@ -3,7 +3,7 @@ var len = number.length;
 var i = 0
 var total = 0
 
-while(i < len){
+while (i < len) {
   console.log(number[i]);
   total += number[i];
   i = i + 1;

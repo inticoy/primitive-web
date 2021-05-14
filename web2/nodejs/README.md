@@ -933,6 +933,7 @@ else if (pathname === "/update_process") {
 # 37. App. 글 삭제 - 삭제 버튼 구현
 
 
+
 - Delete 버튼을 링크로 연결되도록 하면 안 된다.
 - Delete 버튼을 Get 방식(querystring)으로 구현하면 링크를 찾아서 들어갈 경우 삭제되는 문제가 생긴다.
 - 따라서 <a> 태그가 아닌 <form> 으로 해야한다.
@@ -946,6 +947,7 @@ else if (pathname === "/update_process") {
 ```
 
 # 38. App. 글 삭제 기능 완성
+
 
 
 ```jsx
@@ -971,4 +973,364 @@ else if (pathname === "/delete_process") {
   }
 ```
 
-# 39. Javascript 객체의 형식
+# 39. JavaScript 객체의 형식
+
+
+
+### Object vs. Array
+
+Array : 순서를 가진 수납 상자, 각각의 정보들은 숫자라는 고유한 식별자가 있다.
+
+Object: 순서가 없는 수납 상자, 고유한 식별자가 있다.
+
+- .으로 접근
+
+```jsx
+var members = ['egoing', 'k8805', 'hoya'];
+console.log(members[1]); // k8805
+
+var roles = {
+  'programmer': 'egoing',
+  'designer': 'k8805',
+  'manager': 'hoya'
+}
+console.log(roles.designer);
+```
+
+# 40. JavaScript 객체 - 반복
+
+
+
+```jsx
+var members = ['egoing', 'k8805', 'hoya'];
+console.log(members[1]); // k8805
+
+var i = 0
+while (i < members.length) {
+  console.log('array loop', members[i]);
+  i += 1;
+}
+
+var roles = { // key and value
+  'programmer': 'egoing',
+  'designer': 'k8805',
+  'manager': 'hoya'
+}
+console.log(roles.designer);
+
+for (var name in roles) {
+  console.log('object =>', name, 'value =>', roles[name]);
+}
+```
+
+# 41. JavaScript 객체 - 값으로서 함수
+
+
+
+- 함수는 Statement이면서 값이다.
+
+```jsx
+var k = function() {
+  console.log(1 + 1);
+  console.log(1 + 2);
+}
+
+console.log(k);
+k();
+
+var a = [k];
+a[0]();
+
+var o = {
+  func: k
+}
+o.func();
+
+// var i =
+//   if (true) {
+//     console.log(1)
+//   };
+
+// var j =
+//   while (true) {
+//     console.log(1);
+//   };
+```
+
+# 42. JavaScript 객체 - 데이터와 처리 방법을 담는 그릇으로서의 객체
+
+
+
+```jsx
+var o = {
+  v1: 'v1',
+  v2: 'v2',
+  f1: function() {
+    console.log(this.v1);
+  },
+  f2: function() {
+    console.log(this.v2);
+  }
+}
+
+o.f1();
+o.f2();
+```
+
+# 43. App. 템플릿 기능 정리정돈하기
+
+
+
+- Refactoring
+
+```jsx
+var template = {
+  html: function(title, list, body, control) {
+    return `
+    <!doctype html>
+    <html>
+    <head>
+    <title>${title} practice</title>
+    <mata charset = "utf-8">
+    <link rel ="stylesheet" href="style.css">
+    </head>
+
+    <body>
+    <h1> <a href="/">WEB</a> </h1>
+    <div id="grid">
+    ${list}
+    <div id="article">
+    ${control}
+    ${body}
+    </div>
+    </div>
+    </body>
+    `;
+  },
+  list: function(filelist) {
+    var list = `<ul>`;
+    var i = 0;
+    while (i < filelist.length) {
+      list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
+      i++;
+    }
+    list = list + `</ul>`
+    return list;
+  }
+}
+```
+
+# 44. Node.js 모듈의 형식
+
+
+
+- muse.js
+
+```jsx
+// var M = {
+//   v: 'v',
+//   f: function() {
+//     console.log(this.v);
+//   }
+// }
+
+var part = require('./mpart.js');
+console.log(part);
+part.f();
+```
+
+- mpart.js
+
+```jsx
+var M = {
+  v: 'v',
+  f: function() {
+    console.log(this.v);
+  }
+}
+
+module.exports = M;
+```
+
+# 45. App. 모듈의 활용
+
+
+
+- main.js
+
+```jsx
+var template = require('./lib/template.js')
+```
+
+- ./lib/template.js
+
+```jsx
+module.exports = {
+  html: function(title, list, body, control) {
+    // ~~~
+  },
+  list: function(filelist) {
+    // ~~~
+	}
+}
+
+// module.exports = template;
+```
+
+# 46. App. 입력 정보에 대한 보안
+
+
+
+- ../ 같은 url로 상위 디렉토리들을 탐색할 수 있게되는 문제가 생길 수 있다.
+
+```jsx
+var path = require('path');
+
+path.parse('../password.js');
+// result is
+{ root: '',
+  dir: 'password.js',
+  ext: '.js',
+  name: 'password'
+}
+
+path.parse('../password.js').base;
+// result is
+'password.js'
+
+// in main.js
+var filteredId = path.parse(queryData.id).base;
+        fs.readFile(`data/${filteredId}`, 'utf8', function(err, data)
+```
+
+# 47. App. 출력 정보에 대한 보안
+
+
+
+## 47.1. 방법 1
+
+
+
+Create에 입력
+
+Title: XSS (공격기법)
+
+Description: <script> alert('merong'); </script>
+
+```jsx
+alert('merong');
+location.href = "https://www.naver.com";
+```
+
+- script 태그는 html에게 하여금 JavaScript로 해당 내용이 실행되도록 함.
+- alert 함수는 경고창 띄움
+- location.href는 해당 사이트로 이동시킴.
+
+이렇게 들어온 값들을 그렇다면 어떻게 filtering 할 수 있을까?
+
+### 방법 1. data 폴더의 문제가 되는 페이지를 직접 수정
+
+- script 태그를 문자 그대로 나오게 하면 되는 것이므로
+- html에서 <는 &lt; <는 &gt; 로 나타낼 수 있다.
+- 페이지를 직접 수정한다.
+
+## 47.2. npm 설치
+
+
+
+<학습 목표>
+
+1. 사용자가 입력한 정도에 문제가 있을 경우에 내보낼 경우 소독해서 출력하기
+2. npm을 통해 다른 사람이 만든 모듈을 사용해 앱을 빠르게 만드는 것
+
+- sanitize-html 모듈을 사용해보자.
+
+```jsx
+npm init // 해당 폴더에서 npm을 세팅해주기
+npm install -S // 해당 프로젝트에만 npm module을 설치
+// npm install -g 를 할 경우 global하게 모듈을 설치
+```
+
+- 우리의 프로그램이 어떤 모듈에 의존하고 있는지는 다음을 통해 알 수 있다.
+
+```jsx
+"dependencies": {
+    "sanitize-html": "^2.3.3"
+  }
+```
+
+- sanitize-html 또한 다른 모듈들에게 의존하기 있기 때문에 sanitize-html을 깔면 다른 모듈들도 함께 깔리게 되는 것이다.
+
+## 47.3. 방법 2.
+
+
+
+```jsx
+var sanitizedHtml = require('sanitize-html')
+
+// usage
+var sanitizedTitle = sanitizedHtml(title);
+          var sanitizedDescription = sanitizedHtml(description);
+          var list = template.list(filelist);
+          var html = template.html(sanitizedTitle, list, `<h2>${sanitizedTitle}</h2><p>${sanitizedDescription}</p>`,
+```
+
+- 강의에서는 <h1> 태그와 같은 태그들을 사용하려면 allowedTages에 array를 통해 옵션으로 줬어야 하는데, sanitized-html이 버전업되면서 h1 태그와 같은 기본적인 태그들은 인식하도록 바뀐 듯하다.
+
+# 48. API와 CreateServer
+
+
+
+## API. Application Programming Interface
+
+- ex. fs.readFile : Node.js의 개발자들이 만든 함수.
+- 공식문서화 되어있음.
+
+```jsx
+http.createServer([requestListner])
+
+```
+
+- [ ]의 의미는 인자가 있을 수도 없을 수도 있다는 의미.
+- 우리의 경우 function(request, response)를 통해 요청한 정보와 응답한 정보를 객체로 전해줬음.
+- return 값은 http.Server의 객체
+
+# 49. 수업을 마치며
+
+
+
+### 공부한 내용.
+
+- JavaScript 문법
+- Node.js 기능
+- Web Application을 만드는 방법
+- WEB / Internet의 동작 원리
+
+### 더 공부해볼만한 내용.
+
+- JavaScript는 Web browser를 제어하기 위한 언어.
+    - Client, Server 모두를 하나의 단일 언어로 구현할 수 있게 됨.
+    - JavaScript와 그것이 아닌 것을 쉽게 구분할 수 있게 됨.
+- Database
+    - MongoDB
+    - MySQL
+- Framework
+    - 언어 상관없이 공통적으로 사용되고 구현해놓은 부분
+- Node.js 의 Module from npm 등.
+- Node.js 의 API
+- Node.js AWESOME
+
+# 49. 부록 - pm2 보충학습
+
+
+
+```jsx
+pm2 start main.js --watch // running at background, so see with pm2 log
+pm2 kill // pm2로 켜진 프로세스들을 모두 종료
+pm2 start main.js --watch --no-daemon // daemon is like background running
+pm2 kill
+
+pm2 start main.js --watch --ignore-watch="data/*" --no-daemon // doesn't restart when data folder changes.
+```
+
+- ignore-watch할 폴더 추가하고 싶다면 "data/* ~~/*"와 같이 띄어쓰기로 구분.
